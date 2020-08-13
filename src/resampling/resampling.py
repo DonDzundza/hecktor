@@ -5,7 +5,7 @@ from scipy.ndimage import affine_transform
 from scipy.interpolate import RegularGridInterpolator
 import SimpleITK as sitk
 
-from src.resampling.utils import (get_sitk_volume_from_np,
+from .utils import (get_sitk_volume_from_np,
                                   get_np_volume_from_sitk)
 
 
@@ -26,12 +26,12 @@ class Resampler():
     def __call__(self, f, resampling=None):
         if resampling is None:
             resampling = self.resampling
-        patient_name = f.split('/')[-1].split('_')[0]
+        patient_name = f.split('\\')[1]
         # patient_folder = os.path.join(self.output_folder, patient_name)
         # if not os.path.exists(patient_folder):
         #     os.mkdir(patient_folder)
         # output_file = os.path.join(patient_folder, f.split('/')[-1])
-        output_file = os.path.join(self.output_folder, f.split('/')[-1])
+        output_file = os.path.join(self.output_folder, f.split('\\')[-1])
         bb = (self.bb_df.loc[patient_name, 'x1'], self.bb_df.loc[patient_name,
                                                                  'y1'],
               self.bb_df.loc[patient_name, 'z1'], self.bb_df.loc[patient_name,
