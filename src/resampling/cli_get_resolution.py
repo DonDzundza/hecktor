@@ -12,7 +12,7 @@ import SimpleITK as sitk
                 default='data/hecktor_nii/')
 @click.argument('output_file',
                 type=click.Path(),
-                default='data/original_resolution.csv')
+                default='data/original_resolution_test.csv')
 @click.option('--extension',
               type=click.STRING,
               default='.nii.gz',
@@ -32,7 +32,8 @@ def main(input_folder, output_file, extension):
     resolution_dict = pd.DataFrame(
         columns=['PatientID', 'resolution_x', 'resolution_y', 'resolution_z'])
     for f in glob.glob(input_folder + '/**/*_CT' + extension, recursive=True):
-        patient_name = f.split('/')[-2]
+        patient_name = f.split('\\')[-2]
+        print(patient_name)
         sitk_image = sitk.ReadImage(f)
         px_spacing = sitk_image.GetSpacing()
         resolution_dict = resolution_dict.append(
